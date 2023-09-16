@@ -17,7 +17,18 @@ namespace BasicQueuingCashier
         public CashierWindowQueueForm()
         {
             InitializeComponent();
+            timerTick();
         }
+
+
+        public void timerTick()
+        {
+            Timer timer = new Timer();
+            timer.Interval = (1 * 1000);
+            timer.Tick += new EventHandler(timer1_Tick);
+            timer.Start();
+        }
+        
 
         public void DisplayCashierQueue(IEnumerable CashierList)
         {
@@ -35,13 +46,22 @@ namespace BasicQueuingCashier
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Timer timer = new Timer();
-            timer.Interval = (1 * 1000);
-            timer.Tick += new EventHandler(timer1_Tick);
-            timer.Start();//cash
+            DisplayCashierQueue(CashierClass.CashierQueue);
 
         }
 
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            if(CashierClass.CashierQueue != null && CashierClass.CashierQueue.Count > 0) 
+            { 
+                string pop = CashierClass.CashierQueue.Dequeue();
 
+                if (CashierClass.CashierQueue.Count == 0)
+                {
+                    MessageBox.Show("The queue is now empty!" + "\n" + "Get a number at the Cashier.");
+
+                }
+            }
+        }
     }
 }
